@@ -13,7 +13,8 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class CKEditor extends Trix
 {
-    use Expandable, SupportsDependentFields;
+    use Expandable;
+    use SupportsDependentFields;
 
     /**
      * The field's component.
@@ -90,14 +91,14 @@ class CKEditor extends Trix
      * @param  string $attribute
      * @return \Closure|null
      */
-    protected function fillAttribute(NovaRequest $request, $requestAttribute, $model, $attribute)
+    protected function fillAttribute(NovaRequest $request, string $requestAttribute, object $model, string $attribute): ?callable
     {
         parent::fillAttribute($request, $requestAttribute, $model, $attribute);
 
-        if ($request->{$this->attribute.'DraftId'} && $this->withFiles) {
+        if ($request->{$this->attribute . 'DraftId'} && $this->withFiles) {
             return function () use ($request, $model, $attribute) {
                 config('nova.ckeditor-field.pending_attachment_model')::persistDraft(
-                    $request->{$this->attribute.'DraftId'},
+                    $request->{$this->attribute . 'DraftId'},
                     $this,
                     $model
                 );

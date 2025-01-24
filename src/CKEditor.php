@@ -104,6 +104,8 @@ class CKEditor extends Trix
                 );
             };
         }
+
+        return null;
     }
 
     /**
